@@ -27,6 +27,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+app.use(stormpath.init(app, {
+    application: process.env.STORMPATH_APP_HREF,
+    secretKey: process.env.EXPRESS_SECRET,
+}));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -58,11 +63,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-app.use(stormpath.init(app, {
-    application: process.env.STORMPATH_APP_HREF,
-    secretKey: process.env.EXPRESS_SECRET,
-}));
 
 
 module.exports = app;
